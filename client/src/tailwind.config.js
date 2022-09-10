@@ -17,6 +17,10 @@ module.exports = {
                 wiggle: 'wiggle 1s ease-in-out infinite',
                 fadeIn: 'fadeIn 500ms ease-in',
                 flipVertical: 'flipVertical 1s ease-in',
+                openFolder: 'openFolder 250ms forwards',
+                closeFolder: 'closeFolder 250ms forwards',
+                moveUp: 'moveUp 250ms forwards',
+                moveDown: 'moveDown 250ms forwards',
             },
             boxShadow: {
                 customMenu: '0px 0px 12px 4px rgba(66, 84, 255, 0.40)',
@@ -47,6 +51,60 @@ module.exports = {
                     },
                     '100%': {
                         transform: 'rotateY(180deg)',
+                    },
+                },
+                openFolder: {
+                    '0%': {},
+
+                    '50%': {
+                        transform:
+                            'skew(-10deg, 0deg) translateX(26) translateY(12) scaleY(0.9)',
+                    },
+
+                    '100%': {
+                        transform:
+                            'skew(-20deg, 0deg) translateX(36px) translateY(56px) scaleY(0.4)',
+                    },
+                },
+                closeFolder: {
+                    '0%': {
+                        transform:
+                            'skew(-20deg, 0deg) translateX(36px) translateY(56px) scaleY(0.4)',
+                    },
+
+                    '50%': {
+                        transform:
+                            'skew(-10deg, 0deg) translateX(26) translateY(12) scaleY(0.9)',
+                    },
+                    '100%': {
+                        transform:
+                            'skew(0deg, 0deg) translateX(0) translateY(0) scaleY(1)',
+                    },
+                },
+                moveUp: {
+                    '0%': {
+                        transform: 'translateY(0)',
+                    },
+
+                    '50%': {
+                        transform: 'translateY(-5%)',
+                    },
+
+                    '100%': {
+                        transform: 'translateY(-10%)',
+                    },
+                },
+                moveDown: {
+                    '0%': {
+                        transform: 'translateY(-10%)',
+                    },
+
+                    '50%': {
+                        transform: 'translateY(-5%)',
+                    },
+
+                    '100%': {
+                        transform: 'translateY(0)',
                     },
                 },
             },

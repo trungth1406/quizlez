@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import FolderDetails from '../components/main-content/FolderDetails';
+import FolderListView from '../components/main-content/folders/FolderListView';
 
 const Container = styled.main`
     ${tw`p-3 pl-5 w-full h-full relative text-white overflow-y-scroll`}
@@ -23,13 +24,16 @@ const Container = styled.main`
 
 function MainContent() {
     return (
-        <Container >
+        <Container>
             <Routes>
                 <Route
                     path="/folders/*"
                     element={<FolderDetails />}
                 />
-               
+                <Route
+                    path="/folders"
+                    element={<FolderListView />}
+                />
             </Routes>
         </Container>
     );

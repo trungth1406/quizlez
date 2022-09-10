@@ -15,10 +15,6 @@ function FolderDetails() {
         <DetailContainer>
             <Routes>
                 <Route
-                    path=""
-                    element={<TestSetForm folderId={folderId} />}
-                ></Route>
-                <Route
                     path="testsets/*"
                     element={<TestSets folderId={folderId} />}
                 ></Route>

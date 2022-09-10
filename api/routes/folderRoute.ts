@@ -10,15 +10,20 @@ export const folderRoute = function (app: Express) {
     const folderServices = folderService();
     const testSetServices = testSetService();
 
-    app.route('/folders').post(jsonParser, async (req, res) => {
-        const requestBody = req.body;
-        if (requestBody) {
-            const addNewFolder = (menuModel: MenuModel) => {
-                return folderServices.addNewFolder(menuModel);
-            };
-            res.status(200).send(await addNewFolder(requestBody));
-        }
-    });
+    app.route('/folders')
+        .get(async (req, res) => {
+            const allFolders = await folderServices.getAllFolders();
+            res.send(allFolders).status(200);
+        })
+        .post(jsonParser, async (req, res) => {
+            const requestBody = req.body;
+            if (requestBody) {
+                const addNewFolder = (menuModel: MenuModel) => {
+                    return folderServices.addNewFolder(menuModel);
+                };
+                res.status(200).send(await addNewFolder(requestBody));
+            }
+        });
 
     app.get('/folders/:id', async (req, res) => {
         const requestParam: any = req.params;

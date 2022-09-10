@@ -7,6 +7,11 @@ const prisma = new PrismaClient();
 export const folderService = function () {
     const menuService = menuServices();
 
+    const getAllFolders = async () => {
+        const allFolders = await prisma.folder.findMany();
+        return allFolders;
+    };
+
     const addNewFolder = async (menuModel: MenuModel) => {
         const menu = await menuService.findById(menuModel.parentMenuId);
         return prisma.folder.create({
@@ -37,6 +42,7 @@ export const folderService = function () {
 
     return {
         addNewFolder,
+        getAllFolders,
         findFolderById,
     };
 };
