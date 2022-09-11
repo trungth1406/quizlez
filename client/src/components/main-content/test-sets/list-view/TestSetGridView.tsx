@@ -5,6 +5,10 @@ import styled from 'styled-components';
 import tw from 'twin.macro';
 import TestSetCard from './TestSetCard';
 
+const GridView = styled.section`
+    ${tw` clear-both ml-auto mr-auto`}
+`;
+
 const GridTestSet = styled.div`
     ${tw`grid gap-3  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4`}
     padding: 1em 0 0 3em
@@ -40,7 +44,7 @@ const EmptyTestSets = () => {
 function TestSetGridView({ testSets, folderId }) {
     const { t } = useTranslation();
     return (
-        <>
+        <GridView>
             <AddSection>
                 <Link to={`/folders/${folderId}/testsets/form`}>
                     <AddTestSetButton>{t('testSets.add')}</AddTestSetButton>
@@ -59,7 +63,7 @@ function TestSetGridView({ testSets, folderId }) {
                     );
                 })}
             </GridTestSet>
-        </>
+        </GridView>
     );
 }
 

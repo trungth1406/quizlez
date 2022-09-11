@@ -5,7 +5,7 @@ import TestSetForm from './test-sets/form/TestSetForm';
 import TestSets from './test-sets/TestSets';
 
 const DetailContainer = styled.section`
-    ${tw`grid clear-both ml-auto mr-auto`}
+    ${tw`grid`}
 `;
 
 function FolderDetails() {
