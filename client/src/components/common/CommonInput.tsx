@@ -27,7 +27,7 @@ const ErrorText = styled.span`
     font-size: .775rem !important;
 `;
 
-function TestSetInput({
+function CommonRevertColorInput({
     placeHolder = '',
     label,
     bgColor = 'bg-custom-primary',
@@ -117,4 +117,4 @@ function TestSetInput({
     );
 }
 
-export default TestSetInput;
+export default CommonRevertColorInput;

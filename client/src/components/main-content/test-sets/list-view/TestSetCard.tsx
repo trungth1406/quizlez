@@ -35,7 +35,7 @@ const DescriptionHeader = styled(TextHeader)`
 `;
 
 const TermHeader = styled(DescriptionHeader)`
-    ${tw`text-base text-custom-second-sub justify-end`}
+    ${tw`text-base text-custom-sub justify-end`}
 `;
 
 const IconActionButton = styled.button`

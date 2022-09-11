@@ -52,6 +52,13 @@ export const folderService = function () {
                     select: {
                         id: true,
                         name: true,
+                        terms: {
+                            select: {
+                                id: true,
+                                term: true,
+                                definition: true,
+                            },
+                        },
                     },
                     take: params?.size || 10,
                 },

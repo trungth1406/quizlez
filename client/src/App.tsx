@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './index.css';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import TopMenu from './layouts/TopMenu';
 import Sidebar from './layouts/Sidebar';
 import MainContent from './layouts/MainContent';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, useNavigate } from 'react-router-dom';
 import './i18n/i18n';
 
 const Container = styled.main`

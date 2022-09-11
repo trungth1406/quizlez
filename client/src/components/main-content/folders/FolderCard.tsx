@@ -6,6 +6,7 @@ import { AiOutlineOrderedList, AiOutlineRead } from 'react-icons/ai';
 import { BiBookAdd } from 'react-icons/bi';
 import { MdOutlineFavoriteBorder } from 'react-icons/md';
 import { VscChecklist } from 'react-icons/vsc';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import GuidanceCard from './GuidanceCard';
@@ -21,35 +22,37 @@ const FolderCardUpperView = styled.section`
 
     &::before {
         content: '';
-        display: inline-block;
+        display: flex;
         position: absolute;
         height: 30px;
         top: -31px;
         left: -2px;
-        ${tw`bg-custom-secondary`};
+        ${tw`bg-custom-secondary `};
         width: 40%;
         border-radius: 4px 75px 4px 0;
     }
 `;
 
-const FolderCardBelowView = styled.section`
+const FolderCardBelowView = styled.section<{ text: string }>`
     ${tw`w-80 h-48 bg-white  shadow-lg border-2 border-solid border-custom-secondary flex  flex-col relative `}
     border-radius: 0 8px 8px 8px;
 
     &::before {
-        content: 'Most view';
-        display: inline-block;
+        content: 'Most recent';
+        display: flex;
         position: absolute;
         height: 30px;
         top: -30px;
-        ${tw`bg-white`};
+        
         width: 40%;
         border-radius: 4px 75px 4px 0;
+        padding-left: .5em;
+        ${tw`bg-white text-gray-500 text-sm items-center`};
     }
 }`;
 
 const TestSetCard = styled.section<{ top; left; height?; width? }>`
-    ${tw`w-64 h-40 text-black bg-white font-bold text-sm shadow-2xl border-solid rounded-lg  flex  flex-col absolute  p-1  gap-1 hover:animate-moveUp `}
+    ${tw`w-64 h-40 text-black bg-white font-bold text-sm shadow-2xl border-solid rounded-lg  flex  flex-col absolute  p-1  gap-1 `}
     border-width: 1px;
     top: ${(props) => props.top}px;
     left: ${(props) => props.left}px;
@@ -91,12 +94,28 @@ function FolderCard({ folder }) {
     const upperRef = useRef<HTMLDivElement>(null);
     const [testSets, setTestSets] = useState([]);
     const [elRefs, setElRefs] = useState([]);
+    const belowView = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        // console.log(
+        //     window
+        //         .getComputedStyle(belowView.current, '::before')
+        //         .getPropertyValue('content')
+        // );
+    });
 
     useEffect(() => {
         setElRefs((elRefs) =>
             Array(testSets.length)
                 .fill(testSets)
-                .map((_, i) => elRefs[i] || createRef())
+                .map((_, i) => {
+                    if (elRefs[i]) {
+                        elRefs[i].classList.add('animate-showUp');
+                        return elRefs[i];
+                    } else {
+                        return createRef();
+                    }
+                })
         );
     }, [testSets]);
 
@@ -125,9 +144,18 @@ function FolderCard({ folder }) {
         }
     };
 
-    const moveDown = () => {
-        // elRefs.current[].classList.add('animate-moveDown');
-        // elRefs.current[i]..classList.remove('animate-moveUp');
+    const moveDown = (index) => {
+        if (elRefs[index]) {
+            elRefs[index].classList.add('animate-moveDown');
+            elRefs[index].classList.remove('animate-moveUp');
+        }
+    };
+
+    const moveCardUp = (index) => {
+        if (elRefs[index]) {
+            elRefs[index].classList.add('animate-moveUp');
+            elRefs[index].classList.remove('animate-showUp');
+        }
     };
 
     return (
@@ -136,18 +164,25 @@ function FolderCard({ folder }) {
             key={'container' + folder.id}
         >
             <FolderCardBelowView
+                text="Most recent"
                 className="BelowView"
                 key={'below' + folder.id}
+                ref={belowView}
             >
                 {testSets.map((testSet, index) => {
+                    console.log(testSet);
                     return (
-                        <>
+                        <Link
+                            to={`${folder.id}/testsets/${testSet.id}`}
+                            state={testSet}
+                        >
                             <TestSetCard
                                 key={'testSet' + index}
                                 top={index * 22}
-                                left={index * 12}
+                                left={index * 12 + 2}
                                 height={160 - index * 40}
-                                onMouseLeave={moveDown}
+                                onMouseLeave={() => moveDown(index)}
+                                onMouseOver={() => moveCardUp(index)}
                                 ref={(e) => {
                                     elRefs[index] = e;
                                 }}
@@ -156,9 +191,13 @@ function FolderCard({ folder }) {
                                     <CardText>{testSet.name}</CardText>
                                     <IconActions>
                                         <AiOutlineRead
-                                            size={18}
+                                            size={16}
+                                            className="text-custom-sub"
                                         ></AiOutlineRead>
-                                        <VscChecklist size={18}></VscChecklist>
+                                        <VscChecklist
+                                            size={16}
+                                            className="text-custom-sub"
+                                        ></VscChecklist>
                                     </IconActions>
                                 </CardHeader>
                             </TestSetCard>
@@ -177,7 +216,7 @@ function FolderCard({ folder }) {
                                     ></GuidanceCard>
                                 </GuidanceCardRef>
                             )}
-                        </>
+                        </Link>
                     );
                 })}
                 {testSets.length === 0 && (

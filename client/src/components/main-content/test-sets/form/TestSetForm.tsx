@@ -9,6 +9,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { FormProvider, useForm } from 'react-hook-form';
 import GeneralInformationGroup from './general-information/GeneralInfoGroup';
 import axios from 'axios';
+import AddButton from '../../../common/AddButton';
 
 const FormContainer = styled.form`
     ${tw`grid  gap-5  h-full grid-rows-3 grid-cols-1 px-10 animate-fadeIn clear-both ml-auto mr-auto`}
@@ -21,18 +22,6 @@ const CardListWrapper = styled.section`
 
 const CardList = styled.ul`
     ${tw`grid gap-3 w-full min-h-0 grid-rows-1 grid-cols-1`}
-`;
-
-const AddButtonWrapper = styled.div`
-    ${tw`grid justify-self-end grid-cols-1
-     w-full bg-custom-secondary rounded-md justify-items-center h-full py-5`}
-`;
-
-const AddSection = styled.section`
-    ${tw`flex m-3 items-center   justify-center  border-b-custom-sub border-b-8 w-max`}
-`;
-const AddButton = styled.button`
-    ${tw`text-white bg-custom-secondary rounded-md p-1  font-light text-sm`}
 `;
 
 const PageHeaderContainer = styled.header`
@@ -102,16 +91,12 @@ function TestSetForm({ folderId }) {
                         })}
                     </CardList>
                 </CardListWrapper>
-                <AddButtonWrapper onClick={addNewCard}>
-                    <AddSection>
-                        <IoAddOutline></IoAddOutline>
-                        <AddButton>
-                            {t(
-                                'testSets.form.definitionCards.add'
-                            ).toLocaleUpperCase()}
-                        </AddButton>
-                    </AddSection>
-                </AddButtonWrapper>
+                <AddButton
+                    text={t(
+                        'testSets.form.definitionCards.add'
+                    ).toLocaleUpperCase()}
+                    onClick={addNewCard}
+                />
             </FormProvider>
         </FormContainer>
     );

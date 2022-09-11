@@ -9,7 +9,6 @@ import DefinitionCard from './DefinitionCard';
 
 const DetailViewContainer = styled.div`
     ${tw`grid grid-cols-1 gap-3 clear-both ml-auto mr-auto mt-5 w-9/12 h-full `}
-    
 `;
 
 const Header = styled.header`
@@ -57,15 +56,17 @@ function TestSetDetailView() {
                 </IconButtonActionWrapper>
             </ActionContainer>
             <Divider></Divider>
-            <DefinitionCardContainer>
-                <DefinitionCard
-                    key={currentCardIndex}
-                    term={state.terms[currentCardIndex]}
-                    index={currentCardIndex}
-                    totalLength={state.terms.length}
-                    setCurrentCardIndex={setCurrentCardIndex}
-                ></DefinitionCard>
-            </DefinitionCardContainer>
+            {state.terms && state.terms.length > 0 && (
+                <DefinitionCardContainer>
+                    <DefinitionCard
+                        key={currentCardIndex}
+                        term={state.terms[currentCardIndex]}
+                        index={currentCardIndex}
+                        totalLength={state.terms.length}
+                        setCurrentCardIndex={setCurrentCardIndex}
+                    ></DefinitionCard>
+                </DefinitionCardContainer>
+            )}
         </DetailViewContainer>
     );
 }

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
-import TestSetInput from '../common/TestSetInput';
+import CommonColorInput from '../../../../common/CommonInput';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { MdDragHandle } from 'react-icons/md';
 import { useFormContext } from 'react-hook-form';
@@ -80,7 +80,7 @@ function DefinitionCard({ index, definition, removeCard }) {
             </HeaderContainer>
             <CardBody className='CardBody'>
                 <DefinitionRow>
-                    <TestSetInput
+                    <CommonColorInput
                         label={'testSets.form.label.term'}
                         bgColor={'bg-custom-secondary'}
                         inputWidth={'w-full'}
@@ -90,8 +90,8 @@ function DefinitionCard({ index, definition, removeCard }) {
                         errorMessage={
                             'testSets.form.errors.definition.atLeastOne'
                         }
-                    ></TestSetInput>
-                    <TestSetInput
+                    ></CommonColorInput>
+                    <CommonColorInput
                         label={'testSets.form.label.definition'}
                         bgColor={'bg-custom-secondary'}
                         inputWidth={'w-full'}
@@ -101,7 +101,7 @@ function DefinitionCard({ index, definition, removeCard }) {
                         errorMessage={
                             'testSets.form.errors.definition.atLeastOne'
                         }
-                    ></TestSetInput>
+                    ></CommonColorInput>
                 </DefinitionRow>
             </CardBody>
         </CardContainer>

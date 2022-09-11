@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import TestSetInput from '../common/TestSetInput';
+import CommonRevertColorInput from '../../../../common/CommonInput';
 import { debounce } from 'lodash';
 import {
     debounceTime,
@@ -63,7 +63,7 @@ function GeneralInformationGroup({ folderId }) {
 
     return (
         <>
-            <TestSetInput
+            <CommonRevertColorInput
                 placeHolder={'testSets.form.placeHolder.name'}
                 label={'testSets.form.label.name'}
                 {...methods}
@@ -72,14 +72,14 @@ function GeneralInformationGroup({ folderId }) {
                 validations={{ required: true }}
                 customRegistration={titleRegistration}
                 shareRef={titleRef}
-            ></TestSetInput>
-            <TestSetInput
+            ></CommonRevertColorInput>
+            <CommonRevertColorInput
                 placeHolder={'testSets.form.placeHolder.description'}
                 label={'testSets.form.label.description'}
                 {...methods}
                 errorMessage={'testSets.form.errors.description'}
                 registerKey={'description'}
-            ></TestSetInput>
+            ></CommonRevertColorInput>
         </>
     );
 }

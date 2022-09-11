@@ -21,6 +21,7 @@ module.exports = {
                 closeFolder: 'closeFolder 250ms forwards',
                 moveUp: 'moveUp 250ms forwards',
                 moveDown: 'moveDown 250ms forwards',
+                showUp: 'showUp 250ms forwards',
             },
             boxShadow: {
                 customMenu: '0px 0px 12px 4px rgba(66, 84, 255, 0.40)',
@@ -92,6 +93,22 @@ module.exports = {
 
                     '100%': {
                         transform: 'translateY(-10%)',
+                    },
+                },
+                showUp :{
+                    '0%': {
+                        transform: 'translateY(-20%)',
+                    },
+                    '25%': {
+                        transform: 'translateY(-10%)',
+                    },
+
+                    '50%': {
+                        transform: 'translateY(-5%)',
+                    },
+
+                    '100%': {
+                        transform: 'translateY(0)',
                     },
                 },
                 moveDown: {

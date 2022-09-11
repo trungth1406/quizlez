@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import tw from 'twin.macro';
 import styled from 'styled-components';
 import TopLeftMenuActionList from '../components/top-menu/TopLeftMenuActionList';
 import TopRightMenuActionList from '../components/top-menu/TopRightMenuActionList';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.section`
     ${tw`bg-custom-primary  h-6 absolute top-0 left-0 w-full flex content-between`};
@@ -23,6 +24,12 @@ const MenuAction = styled.section`
 `;
 
 export const TopMenu = () => {
+    let navigate = useNavigate();
+
+    useEffect(() => {
+        navigate('/folders');
+    }, []);
+
     return (
         <Container>
             <Logo>QUIZLEZ</Logo>
