@@ -8,9 +8,13 @@ import { Tooltip } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const CardContainer = styled.section`
-    ${tw`grid grid-rows-2 gap-3  bg-custom-secondary rounded-md shadow-md p-5 pb-0 mt-5 hover:shadow-customMenu animate-fadeIn cursor-pointer items-center`}
+    ${tw`grid grid-rows-2 gap-3  bg-custom-secondary rounded-md shadow-md p-5 pb-0 mt-5  animate-fadeIn cursor-pointer items-center`}
     width: 402px;
     height: 212px;
+
+    // :hover {
+    //     background-color: #f5f5f5;
+    // }
 `;
 
 const MainContainer = styled.section`
@@ -46,7 +50,7 @@ function TestSetCard({ testSet }) {
             to={`${testSet.id}`}
             state={testSet}
         >
-            <CardContainer>
+            <CardContainer className='CardContainer'>
                 <MainContainer>
                     <TextHeader>{testSet.name}</TextHeader>
                     <DescriptionHeader>{testSet.description}</DescriptionHeader>

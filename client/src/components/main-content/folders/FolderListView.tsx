@@ -3,8 +3,10 @@ import tw from 'twin.macro';
 import FolderCard from './FolderCard';
 import { BsSortDown, BsSortDownAlt, BsSortUp } from 'react-icons/bs';
 import { MdOutlineFavorite, MdOutlineFavoriteBorder } from 'react-icons/md';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import { debounceTime, fromEvent, tap } from 'rxjs';
+import { useForm } from 'react-hook-form';
 
 const ListViewWrapper = styled.main`
     ${tw` clear-both ml-auto mr-auto flex flex-col mt-5 gap-3`}
@@ -20,11 +22,18 @@ const SearchBox = styled.input`
 `;
 
 const FolderGridView = styled.section`
-    ${tw`grid gap-3 w-full h-full mt-9`}
+    ${tw`grid gap-3 h-full mt-9`}
     grid-row-gap: 3rem;
     grid-template-rows: repeat(auto-fill, minmax(250px, 1fr));
-    // columns template that does not overflow
     grid-template-columns: repeat(4, minmax(250px, 1fr));
+    clear: both;
+    margin-left: auto;
+    margin-right: auto;
+    grid-gap: 8em;
+
+  
+        
+}
 `;
 
 const ActionContainer = styled.section`
@@ -39,21 +48,53 @@ function FolderListView() {
     const [favoriteFilter, setFavoriteFilter] = useState(false);
     const [sortFilter, setSortFilter] = useState(false);
     const [folderList, setFolderList] = useState([]);
+    const { register, getValues} = useForm();
+    const { ref, ...rest } = register('searchBox');
+
+    const searchBox = useRef<any>();
 
     useEffect(() => {
         axios
-        .get(`http://localhost:3001/folders`)
-        .then((result) => {
-            const responseBody = result.data;
-            setFolderList(responseBody.data);
-        })
-        .catch();
+            .get(`http://localhost:3001/folders`)
+            .then((result) => {
+                const responseBody = result.data;
+                setFolderList(responseBody.data);
+            })
+            .catch();
+
+        const searchSub = fromEvent(searchBox.current, 'keyup')
+            .pipe(
+                debounceTime(250),
+                tap(() => {
+                    axios
+                        .get(`http://localhost:3001/folders?` + new URLSearchParams({
+                            name: getValues('searchBox')
+                        }))
+                        .then((result) => {
+                            const responseBody = result.data;
+                            setFolderList(responseBody.data);
+                        })
+                        .catch();
+                })
+            )
+            .subscribe();
+
+        return () => {
+            searchSub.unsubscribe();
+        };
     }, []);
 
     return (
         <ListViewWrapper>
             <SearchBoxContainer>
-                <SearchBox placeholder="Enter folder name to search"></SearchBox>
+                <SearchBox
+                    {...rest}
+                    placeholder="Enter folder name to search"
+                    ref={(element) => {
+                        ref(element);
+                        searchBox.current = element;
+                    }}
+                ></SearchBox>
             </SearchBoxContainer>
             <ActionContainer>
                 <IconButton onClick={() => setSortFilter(!sortFilter)}>
@@ -69,7 +110,12 @@ function FolderListView() {
             </ActionContainer>
             <FolderGridView>
                 {folderList.map((folder, index) => {
-                    return <FolderCard folder={folder} key={index}></FolderCard>;
+                    return (
+                        <FolderCard
+                            folder={folder}
+                            key={index}
+                        ></FolderCard>
+                    );
                 })}
             </FolderGridView>
         </ListViewWrapper>

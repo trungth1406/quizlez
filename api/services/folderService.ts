@@ -2,13 +2,25 @@ import { PrismaClient } from '@prisma/client';
 import { MenuModel } from '../models/menu.model';
 import { menuServices } from './commonServices';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+    log: ['query', 'info', 'warn', 'error'],
+});
 
 export const folderService = function () {
     const menuService = menuServices();
 
-    const getAllFolders = async () => {
-        const allFolders = await prisma.folder.findMany();
+    const getAllFolders = async (params: { name?: string }) => {
+        const allFolders = await prisma.folder.findMany({
+            select: {
+                id: true,
+                name: true,
+            },
+            where: {
+                name: {
+                    contains: params.name?.toLowerCase() || '',
+                },
+            },
+        });
         return allFolders;
     };
 
@@ -27,15 +39,25 @@ export const folderService = function () {
         });
     };
 
-    const findFolderById = async (id: number) => {
-        return prisma.folder.findUnique({
+    const findFolderById = async (
+        folderId: number,
+        params?: { size?: number }
+    ) => {
+        return prisma.folder.findFirst({
             select: {
                 id: true,
                 name: true,
                 code: true,
+                testSet: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                    take: params?.size || 10,
+                },
             },
             where: {
-                id: id,
+                id: folderId,
             },
         });
     };

@@ -17,7 +17,13 @@ const jsonParser = bodyParser.json();
 const folderRoute = function (app) {
     const folderServices = (0, folderService_1.folderService)();
     const testSetServices = (0, testSetService_1.testSetService)();
-    app.route('/folders').post(jsonParser, (req, res) => __awaiter(this, void 0, void 0, function* () {
+    app.route('/folders')
+        .get((req, res) => __awaiter(this, void 0, void 0, function* () {
+        const name = req.query.name;
+        const allFolders = yield folderServices.getAllFolders({ name: name });
+        res.send(allFolders).status(200);
+    }))
+        .post(jsonParser, (req, res) => __awaiter(this, void 0, void 0, function* () {
         const requestBody = req.body;
         if (requestBody) {
             const addNewFolder = (menuModel) => {
@@ -28,11 +34,12 @@ const folderRoute = function (app) {
     }));
     app.get('/folders/:id', (req, res) => __awaiter(this, void 0, void 0, function* () {
         const requestParam = req.params;
-        const folderId = requestParam['id'];
-        if (folderId) {
-            const folder = yield folderServices.findFolderById(Number(folderId));
-            res.send(folder).status(200);
-        }
+        const { id } = requestParam;
+        const size = req.query.size;
+        const folder = yield folderServices.findFolderById(Number(id), {
+            size: size ? 10 : Number(size),
+        });
+        res.send(folder).status(200);
     }));
     app.get('/folders/:id/testSets', (req, res) => __awaiter(this, void 0, void 0, function* () {
         const requestParam = req.params;

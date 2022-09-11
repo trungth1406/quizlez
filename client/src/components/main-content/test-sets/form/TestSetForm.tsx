@@ -10,7 +10,6 @@ import { FormProvider, useForm } from 'react-hook-form';
 import GeneralInformationGroup from './general-information/GeneralInfoGroup';
 import axios from 'axios';
 
-
 const FormContainer = styled.form`
     ${tw`grid  gap-5  h-full grid-rows-3 grid-cols-1 px-10 animate-fadeIn clear-both ml-auto mr-auto`}
     width: 80%;
@@ -57,7 +56,7 @@ function TestSetForm({ folderId }) {
 
     const addNewCard = () => {
         setCardDefinition([...cardDefinition, {}]);
-    }
+    };
 
     const onCardRemove = (index) => {
         const newCardDefinition = cardDefinition.filter((_, i) => i !== index);

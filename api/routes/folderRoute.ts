@@ -12,7 +12,8 @@ export const folderRoute = function (app: Express) {
 
     app.route('/folders')
         .get(async (req, res) => {
-            const allFolders = await folderServices.getAllFolders();
+            const name = req.query.name;
+            const allFolders = await folderServices.getAllFolders({ name : name as string });
             res.send(allFolders).status(200);
         })
         .post(jsonParser, async (req, res) => {
@@ -27,13 +28,13 @@ export const folderRoute = function (app: Express) {
 
     app.get('/folders/:id', async (req, res) => {
         const requestParam: any = req.params;
-        const folderId = requestParam['id'];
-        if (folderId) {
-            const folder = await folderServices.findFolderById(
-                Number(folderId)
-            );
-            res.send(folder).status(200);
-        }
+        const { id } = requestParam;
+        const size = req.query.size;
+
+        const folder = await folderServices.findFolderById(Number(id), {
+            size: size ? 10 : Number(size),
+        });
+        res.send(folder).status(200);
     });
 
     app.get('/folders/:id/testSets', async (req, res) => {
